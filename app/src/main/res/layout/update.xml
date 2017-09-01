@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView7"
+        android:text="U95"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="U91"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText9"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textViewU9"
+        android:layout_toRightOf="@+id/textViewU9"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editText8"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/textView7"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_toEndOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:text="U98"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText10"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/textView6"
+        android:layout_toRightOf="@+id/textView8"
+        android:layout_toEndOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView8"
+        android:text="DIESEL"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText11"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/textView8"
+        android:layout_toRightOf="@+id/textView8"
+        android:layout_toEndOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="60dp"
+        android:text="LPG"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText7"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_toRightOf="@+id/textView5"
+        android:layout_toEndOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView5"
+        android:text="E10"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editText6"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/textView5"
+        android:layout_toRightOf="@+id/textView4"
+        android:layout_toEndOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/buttonOk"
+        android:layout_toStartOf="@+id/buttonOk"
+        android:layout_marginBottom="102dp" />
+
+    <Button
+        android:id="@+id/buttonOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_alignBaseline="@+id/buttonCancel"
+        android:layout_alignBottom="@+id/buttonCancel"
+        android:layout_alignRight="@+id/editTextReason"
+        android:layout_alignEnd="@+id/editTextReason"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/textViewU9"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView4"
+        android:text="E85"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextU"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_alignTop="@+id/textViewU9"
+        android:layout_toRightOf="@+id/textViewU9"
+        android:layout_toEndOf="@+id/textViewU9" />
+
+</RelativeLayout>

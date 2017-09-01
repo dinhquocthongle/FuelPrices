@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Fuel Prices</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="fuel_prompt">Fuel Type</string>
+    <string-array name="fuel_type">
+        <item>Unleaded 91</item>
+        <item>Unleaded 95</item>
+        <item>Unleaded 98</item>
+        <item>DIESEL</item>
+        <item>E10</item>
+        <item>E85</item>
+        <item>LPG</item>
+    </string-array>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Do you want to turn your location on?</string>
+    <string name="ok">OK</string>
+</resources>
