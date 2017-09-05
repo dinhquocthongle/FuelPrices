@@ -1,20 +1,14 @@
 package com.example.thong.fuelprices;
 
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,10 +18,11 @@ import java.util.List;
 
 public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
+    ArrayList<MarkerOptions> mMarkerArray = new ArrayList<>();
     String googlePlacesData;
     GoogleMap mMap;
     String url;
-    DBHandler db;
+    MapsActivity ac;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -35,6 +30,7 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             Log.d("GetNearbyPlacesData", "doInBackground entered");
             mMap = (GoogleMap) params[0];
             url = (String) params[1];
+            ac = (MapsActivity) params[2];
             DownloadUrl downloadUrl = new DownloadUrl();
             googlePlacesData = downloadUrl.readUrl(url);
             Log.d("GooglePlacesReadTask", "doInBackground Exit");
@@ -67,10 +63,12 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             markerOptions.position(latLng);
             markerOptions.title(placeName + "\n" + vicinity);
             mMap.addMarker(markerOptions);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            mMarkerArray.add(markerOptions);
             //move map camera
 //            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 //            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
+        ac.mMarkerArray = mMarkerArray;
+        ac.insertStations();
     }
 }

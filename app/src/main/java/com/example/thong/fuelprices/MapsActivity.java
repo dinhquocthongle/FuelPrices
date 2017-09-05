@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,8 +21,10 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,14 +45,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    public ArrayList<MarkerOptions> mMarkerArray = new ArrayList<>();
     private GoogleMap mMap;
     LocationManager locationManager;
     LocationListener locationListener;
@@ -60,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static int GETTING_LOCATION = 0;
     private int PROXIMITY_RADIUS = 3500;
     public double latitude,longitude;
+    Spinner spinner;
     Context context = this;
     DBHandler db;
     @Override
@@ -71,6 +80,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        spinner = (Spinner) findViewById(R.id.spinner1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (mMarkerArray.size() != 0) {
+                    mMap.clear();
+                    LatLng latLng = new LatLng(latitude,longitude);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(latitude,longitude,1);
+                        String str = addressList.get(0).getLocality()+",";
+                        str += addressList.get(0).getCountryName();
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    insertStations();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+
+        });
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -132,10 +166,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(latLng).title(str));
                 String type = "gas_station";
                 String url = getUrl(latitude, longitude, type);
-                Object[] DataTransfer = new Object[2];
+                Object[] DataTransfer = new Object[3];
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
-                Log.d("onClick", url);
+                DataTransfer[2] = this;
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this,"Nearby Gas Stations", Toast.LENGTH_LONG).show();
@@ -190,10 +224,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Object[] DataTransfer = new Object[2];
             DataTransfer[0] = mMap;
             DataTransfer[1] = url;
-            Log.d("onClick", url);
+            DataTransfer[2] = this;
             GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
             getNearbyPlacesData.execute(DataTransfer);
             Toast.makeText(MapsActivity.this,"Nearby Gas Stations", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void insertStations() {
+        for (int i = 0; i<mMarkerArray.size(); i++) {
+            Log.i("curr", String.valueOf(mMarkerArray.size()));
+            LatLng latLng = mMarkerArray.get(i).getPosition();
+            final double lat = latLng.latitude;
+            final double lng = latLng.longitude;
+            String name = mMarkerArray.get(i).getTitle();
+            db.insertStation(name, lng, lat);
+            String fuelType= spinner.getSelectedItem().toString();
+            Log.i("curr", fuelType);
+            Cursor res = db.getStation(lng,lat);
+            res.moveToFirst();
+            IconGenerator iconFactory = new IconGenerator(this);
+            if (res.isAfterLast() == false) {
+                String value = res.getString(res.getColumnIndex(fuelType));
+                if (value.equals("-1"))
+                    value = "NONE";
+                MarkerOptions markerOptions = new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(value)));
+                markerOptions.position(latLng);
+                mMap.addMarker(markerOptions);
+            }
         }
     }
 
@@ -310,14 +368,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
+        final IconGenerator iconFactory = new IconGenerator(this);
         LatLng latLng = marker.getPosition();
         final double lat = latLng.latitude;
         final double lng = latLng.longitude;
-        String name = marker.getTitle();
-        db.insertStation(name, lng, lat);
-        Log.i("curr", "CLICKEDDD");
         Cursor res = db.getStation(lng,lat);
-        Log.i("curr", "CLICKEDDD");
         res.moveToFirst();
         if (res.isAfterLast() == false) {
             final Dialog dialog = new Dialog(this);
@@ -370,34 +425,78 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i("curr", "delete");
                 }
             });
-            Button updateButton = (Button) dialog.findViewById(R.id.buttonCancel);
+            Button updateButton = (Button) dialog.findViewById(R.id.buttonUpdate);
             updateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
-                    final Dialog dialogDelete = new Dialog(context);
-                    dialogDelete.setContentView(R.layout.delete);
-                    dialogDelete.show();
-                    Button okButton = (Button) dialogDelete.findViewById(R.id.buttonOk);
+                    final Dialog dialogUpdate = new Dialog(context);
+                    dialogUpdate.setContentView(R.layout.update);
+                    dialogUpdate.show();
+                    Button okButton = (Button) dialogUpdate.findViewById(R.id.buttonOk);
                     okButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EditText edit = (EditText) dialogDelete.findViewById(R.id.editTextReason);
+                            EditText edit = (EditText) dialogUpdate.findViewById(R.id.editTextU98);
                             String result = edit.getText().toString();
-                            Log.i("curr", result);
-                            db.deleteStation(lat,lng);
-                            dialogDelete.dismiss();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateU98(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextU95);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateU95(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextU91);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateU91(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextE10);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateE10(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextE85);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateE85(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextLPG);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateLPG(lat, lng, price);
+                            }
+                            edit = (EditText) dialogUpdate.findViewById(R.id.editTextDiesel);
+                            result = edit.getText().toString();
+                            if (result.length() != 0) {
+                                double price = Double.parseDouble(result);
+                                db.updateDiesel(lat, lng, price);
+                            }
+                            String fuelType= spinner.getSelectedItem().toString();
+                            Cursor res = db.getStation(lng,lat);
+                            res.moveToFirst();
+                            String value = res.getString(res.getColumnIndex(fuelType));
+                            if (value.equals("-1"))
+                                value = "NONE";
+                            marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(value)));
+                            dialogUpdate.dismiss();
                         }
                     });
-                    Button cancelButton = (Button) dialogDelete.findViewById(R.id.buttonCancel);
+                    Button cancelButton = (Button) dialogUpdate.findViewById(R.id.buttonCancel);
                     cancelButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Log.i("curr", "cancel");
-                            dialogDelete.dismiss();
+                            dialogUpdate.dismiss();
                         }
                     });
-                    Log.i("curr", "update");
                 }
             });
             Button navigateButton = (Button) dialog.findViewById(R.id.buttonNavigation);

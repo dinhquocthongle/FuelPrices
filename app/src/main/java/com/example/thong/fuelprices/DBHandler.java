@@ -27,13 +27,13 @@ public class DBHandler extends SQLiteOpenHelper {
                 "Latitude DOUBLE," +
                 "Longitude DOUBLE," +
                 "Name TEXT," +
-                "U91 INT," +
-                "U95 INT," +
-                "U98 INT," +
-                "Diesel INT," +
-                "LPG INT," +
-                "E10 INT," +
-                "E85 INT)");
+                "U91 Double," +
+                "U95 Double," +
+                "U98 Double," +
+                "Diesel Double," +
+                "LPG Double," +
+                "E10 Double," +
+                "E85 Double)");
         db.execSQL("CREATE TABLE Deleted (" +
                 "Latitude DOUBLE," +
                 "Longitude DOUBLE)");
@@ -73,53 +73,54 @@ public class DBHandler extends SQLiteOpenHelper {
         }
         return false;
     }
-    public boolean updateU91 (double longitude, double latitude, int u91) {
+    public boolean updateU91 (double latitude, double longitude, Double u91) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("U91", u91);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
+
         return true;
     }
-    public boolean updateU95 (double longitude, double latitude, int u95) {
+    public boolean updateU95 (double latitude, double longitude, Double u95) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("U95", u95);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
-    public boolean updateU98 (double longitude, double latitude, int u98) {
+    public boolean updateU98 (double latitude, double longitude, Double u98) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("U98", u98);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
-    public boolean updateDiesel (double longitude, double latitude, int Diesel) {
+    public boolean updateDiesel (double latitude, double longitude, Double Diesel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("Diesel", Diesel);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
-    public boolean updateLPG (double longitude, double latitude, int LPG) {
+    public boolean updateLPG (double latitude, double longitude, Double LPG) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("LPG", LPG);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
-    public boolean updateE10 (double longitude, double latitude, int E10) {
+    public boolean updateE10 (double latitude, double longitude, Double E10) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("E10", E10);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
-    public boolean updateE85 (double longitude, double latitude, int E85) {
+    public boolean updateE85 (double latitude, double longitude, Double E85) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("E85", E85);
-        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " Latitude ="+ latitude,null);
+        db.update("Gas_Station", contentValues, "Longitude ="+ longitude + " AND Latitude ="+ latitude,null);
         return true;
     }
     public Cursor getStation (double longitude, double latitude) {
