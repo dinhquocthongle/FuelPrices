@@ -24,6 +24,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -335,6 +337,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
@@ -517,6 +520,93 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(MapsActivity.this,"Gas Station is removed", Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+
+    public void getStations(View view) {
+        float distance=500000;
+        double shortestprice = 0.0;
+        MarkerOptions shortest = mMarkerArray.get(0);
+        Location currentLocation=new Location("currentLocation");
+        currentLocation.setLatitude(latitude);
+        currentLocation.setLongitude(longitude);
+        ArrayList<Double> price = new ArrayList<>();
+        ArrayList<MarkerOptions> markers = new ArrayList<>();
+        for (int i = 0; i<mMarkerArray.size(); i++) {
+            Log.i("curr", String.valueOf(mMarkerArray.size()));
+            LatLng latLng = mMarkerArray.get(i).getPosition();
+            final double lat = latLng.latitude;
+            final double lng = latLng.longitude;
+            Location stationLocation=new Location("stationLocation");
+            stationLocation.setLatitude(latitude);
+            stationLocation.setLongitude(longitude);
+            String fuelType= spinner.getSelectedItem().toString();
+            Log.i("curr", fuelType);
+            Cursor res = db.getStation(lng,lat);
+            res.moveToFirst();
+            if (res.isAfterLast() == false) {
+                String value = res.getString(res.getColumnIndex(fuelType));
+                if (!value.equals("-1")) {
+                    price.add(Double.valueOf(value));
+                    markers.add(mMarkerArray.get(i));
+                    if (distance > (currentLocation.distanceTo(stationLocation) / 1000)) {
+                        distance = currentLocation.distanceTo(stationLocation) / 1000;
+                        shortest = mMarkerArray.get(i);
+                        shortestprice = Double.parseDouble(value);
+                    }
+                }
+            }
+        }
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.station_search);
+        RadioGroup radioGroup = (RadioGroup)dialog.findViewById(R.id.radioGroup);
+        String nearStation = "Nearest station \n" + shortest.getTitle() + '\n' + "Price: " + shortestprice;
+        ((RadioButton) radioGroup.getChildAt(0)).setText(nearStation);
+
+        double cheapestprice = price.get(0);
+        MarkerOptions cheap_station = markers.get(0);
+        for (int i = 0; i<markers.size(); i++) {
+            if (price.get(i) < cheapestprice) {
+                cheapestprice = price.get(i);
+                cheap_station = markers.get(i);
+            }
+        }
+        final MarkerOptions cheapest = cheap_station;
+        final MarkerOptions nearest = shortest;
+        String cheapStation = "Cheapest station \n" + cheapest.getTitle() + '\n' + "Price: " + cheapestprice;
+        ((RadioButton) radioGroup.getChildAt(1)).setText(cheapStation);
+        Button goButton = (Button) dialog.findViewById(R.id.buttonGo);
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("curr", "go");
+                RadioButton near = (RadioButton) dialog.findViewById(R.id.radio_near);
+                RadioButton cheap = (RadioButton) dialog.findViewById(R.id.radio_cheap);
+                final double lat, lng;
+                LatLng latLng = null;
+                if (near.isChecked()) {
+                    latLng = nearest.getPosition();
+                }
+                if (cheap.isChecked()) {
+                    latLng = cheapest.getPosition();
+                }
+                lat = latLng.latitude;
+                lng = latLng.longitude;
+                Intent intent = new Intent( Intent.ACTION_VIEW,
+                        Uri.parse("http://ditu.google.cn/maps?f=d&source=s_d" +
+                                "&saddr="+ latitude +","+ longitude +"&daddr="+ lat +","+ lng +"&hl=zh&t=m&dirflg=d"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK&Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
+        Button cancelButton = (Button) dialog.findViewById(R.id.buttonCancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
 

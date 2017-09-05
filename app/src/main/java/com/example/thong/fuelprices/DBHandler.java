@@ -18,8 +18,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "MyDBName.db";
     public DBHandler(Context context) {
         super(context,DATABASE_NAME,null,1);
-        SQLiteDatabase db = this.getWritableDatabase();
-        onUpgrade(db,1 ,1);
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        onUpgrade(db,1 ,1);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
