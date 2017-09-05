@@ -3,10 +3,10 @@
     <string name="title_activity_maps">Map</string>
     <string name="fuel_prompt">Fuel Type</string>
     <string-array name="fuel_type">
-        <item>Unleaded 91</item>
-        <item>Unleaded 95</item>
-        <item>Unleaded 98</item>
-        <item>DIESEL</item>
+        <item>U91</item>
+        <item>U95</item>
+        <item>U98</item>
+        <item>Diesel</item>
         <item>E10</item>
         <item>E85</item>
         <item>LPG</item>

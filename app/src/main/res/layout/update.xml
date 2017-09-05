@@ -3,19 +3,19 @@
     android:layout_width="fill_parent" android:layout_height="fill_parent">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textViewU95"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView7"
+        android:layout_below="@+id/textViewU91"
         android:text="U95"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textViewU91"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -23,148 +23,144 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/editTextU91"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textViewU9"
-        android:layout_toRightOf="@+id/textViewU9"
+        android:layout_toEndOf="@+id/textViewE85"
+        android:layout_toRightOf="@+id/textViewE85"
         android:ems="10"
         android:inputType="numberDecimal" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/editTextU95"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textViewU91"
+        android:layout_toEndOf="@+id/textViewU95"
+        android:layout_toRightOf="@+id/textViewU95"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/textView7"
-        android:layout_toRightOf="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6" />
+        android:inputType="numberDecimal" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textViewU98"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView6"
+        android:layout_below="@+id/textViewU95"
         android:text="U98"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/editTextU98"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textViewU95"
+        android:layout_toEndOf="@+id/textViewU98"
+        android:layout_toRightOf="@+id/textViewU98"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/textView6"
-        android:layout_toRightOf="@+id/textView8"
-        android:layout_toEndOf="@+id/textView8" />
+        android:inputType="numberDecimal" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/textViewDiesel"
         android:layout_width="60dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/textViewU98"
         android:text="DIESEL"
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/editTextDiesel"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textViewU98"
+        android:layout_toEndOf="@+id/textViewU98"
+        android:layout_toRightOf="@+id/textViewU98"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/textView8"
-        android:layout_toRightOf="@+id/textView8"
-        android:layout_toEndOf="@+id/textView8" />
+        android:inputType="numberDecimal" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textViewLPG"
         android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView6"
-        android:layout_marginTop="60dp"
+        android:layout_height="40dp"
         android:text="LPG"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_below="@+id/textViewDiesel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/editTextLPG"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/textViewLPG"
+        android:layout_toEndOf="@+id/textViewLPG"
+        android:layout_toRightOf="@+id/textViewLPG"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
+        android:inputType="numberDecimal" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewE10"
         android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView5"
+        android:layout_height="40dp"
         android:text="E10"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_below="@+id/textViewLPG"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/editTextE10"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textViewLPG"
+        android:layout_toEndOf="@+id/textViewE10"
+        android:layout_toRightOf="@+id/textViewE10"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_below="@+id/textView5"
-        android:layout_toRightOf="@+id/textView4"
-        android:layout_toEndOf="@+id/textView4" />
+        android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:layout_marginRight="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/buttonOk"
-        android:layout_toStartOf="@+id/buttonOk"
-        android:layout_marginBottom="102dp" />
+        android:layout_below="@+id/textViewE85"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/buttonOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:layout_alignBaseline="@+id/buttonCancel"
         android:layout_alignBottom="@+id/buttonCancel"
-        android:layout_alignRight="@+id/editTextReason"
-        android:layout_alignEnd="@+id/editTextReason"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp" />
+        android:layout_toRightOf="@+id/textViewE85"
+        android:layout_toEndOf="@+id/textViewE85" />
 
     <TextView
-        android:id="@+id/textViewU9"
+        android:id="@+id/textViewE85"
         android:layout_width="60dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView4"
+        android:layout_height="40dp"
         android:text="E85"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_below="@+id/textViewE10"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
-        android:id="@+id/editTextU"
+        android:id="@+id/editTextE85"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/textViewE85"
+        android:layout_toEndOf="@+id/textViewE85"
+        android:layout_toRightOf="@+id/textViewE85"
         android:ems="10"
-        android:inputType="numberDecimal"
-        android:layout_alignTop="@+id/textViewU9"
-        android:layout_toRightOf="@+id/textViewU9"
-        android:layout_toEndOf="@+id/textViewU9" />
+        android:inputType="numberDecimal" />
 
 </RelativeLayout>
